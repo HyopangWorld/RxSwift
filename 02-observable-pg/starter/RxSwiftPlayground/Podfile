@@ -4,8 +4,7 @@ target 'RxSwiftPlayground' do
   use_frameworks!
   
   # Pods for RxSwiftPlayground
-  pod 'RxSwift', '~> 4.0'
-end
+  pod 'RxSwift', :git => 'https://github.com/ReactiveX/RxSwift', :branch => 'swift5.1' end
 
 post_install do |installer|
   installer.pods_project.targets.each do |target|
