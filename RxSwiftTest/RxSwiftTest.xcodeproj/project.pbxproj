@@ -38,6 +38,7 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
+		24553436235FE41900289194 /* Ch3Subject.playground */ = {isa = PBXFileReference; lastKnownFileType = file.playground; path = Ch3Subject.playground; sourceTree = "<group>"; xcLanguageSpecificationIdentifier = xcode.lang.swift; };
 		249A3AE0235F0A050060B6CC /* RxSwiftTest.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = RxSwiftTest.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		249A3AE3235F0A050060B6CC /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		249A3AE5235F0A050060B6CC /* SceneDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SceneDelegate.swift; sourceTree = "<group>"; };
@@ -95,6 +96,7 @@
 		249A3AD7235F0A050060B6CC = {
 			isa = PBXGroup;
 			children = (
+				24553436235FE41900289194 /* Ch3Subject.playground */,
 				249DDB14235FD7FB0050B7BD /* Ch2Observable.playground */,
 				249A3AE2235F0A050060B6CC /* RxSwiftTest */,
 				249A3AF9235F0A070060B6CC /* RxSwiftTestTests */,
