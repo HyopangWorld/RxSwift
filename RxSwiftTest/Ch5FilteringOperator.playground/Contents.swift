@@ -267,12 +267,12 @@ example(of: "distinctUntilChanged(_:)") {
 
 
 
-// Challenge_1 (전화번호 만들기)
+// Challenge (전화번호 만들기)
 /* skipWhile을 사용: 전화번호는 0으로 시작할 수 없습니다.
  * filter를 사용: 각각의 전화번호는 한자리의 숫자 (10보다 작은 숫자)여야 합니다.
  * take와 toArray를 사용하여, 10개의 숫자만 받도록 하세요. (미국 전화번호처럼) */
 
-example(of: "Challenge_1 (전화번호 만들기)") {
+example(of: "Challenge (전화번호 만들기)") {
     let disposeBag = DisposeBag()
     
     let contacts = [

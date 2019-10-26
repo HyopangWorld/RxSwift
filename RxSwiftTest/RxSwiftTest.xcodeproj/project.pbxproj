@@ -38,6 +38,7 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
+		241E0FA1236418590009BC93 /* Ch7TransformingOperator.playground */ = {isa = PBXFileReference; lastKnownFileType = file.playground; path = Ch7TransformingOperator.playground; sourceTree = "<group>"; xcLanguageSpecificationIdentifier = xcode.lang.swift; };
 		24553436235FE41900289194 /* Ch3Subject.playground */ = {isa = PBXFileReference; lastKnownFileType = file.playground; path = Ch3Subject.playground; sourceTree = "<group>"; xcLanguageSpecificationIdentifier = xcode.lang.swift; };
 		249A3AE0235F0A050060B6CC /* RxSwiftTest.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = RxSwiftTest.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		249A3AE3235F0A050060B6CC /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
@@ -97,6 +98,7 @@
 		249A3AD7235F0A050060B6CC = {
 			isa = PBXGroup;
 			children = (
+				241E0FA1236418590009BC93 /* Ch7TransformingOperator.playground */,
 				24E1923823617C6000F6BD6C /* Ch5FilteringOperator.playground */,
 				24553436235FE41900289194 /* Ch3Subject.playground */,
 				249DDB14235FD7FB0050B7BD /* Ch2Observable.playground */,
@@ -599,6 +601,7 @@
 				PRODUCT_BUNDLE_IDENTIFIER = com.hyopangworld.RxSwiftTest;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_VERSION = 5.0;
+				SWIFT_WHOLE_MODULE_OPTIMIZATION = YES;
 				TARGETED_DEVICE_FAMILY = "1,2";
 			};
 			name = Debug;
@@ -618,6 +621,7 @@
 				PRODUCT_BUNDLE_IDENTIFIER = com.hyopangworld.RxSwiftTest;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_VERSION = 5.0;
+				SWIFT_WHOLE_MODULE_OPTIMIZATION = YES;
 				TARGETED_DEVICE_FAMILY = "1,2";
 			};
 			name = Release;
