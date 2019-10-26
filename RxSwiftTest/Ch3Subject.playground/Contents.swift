@@ -1,168 +1,168 @@
 import RxSwift
 
-////MARK: - Publish
-//example(of: "PublishSubject") {
-//    let subject = PublishSubject<String>()
-//    subject.onNext("Is anyone listening?")
-//
-//    let subscriptionOne = subject
-//        .subscribe(onNext: { (string) in
-//            print(string)
-//        })
-//    subject.on(.next("1"))
-//    subject.onNext("2")
-//
-//    // 1
-//    let subscriptionTwo = subject
-//        .subscribe({ (event) in
-//            print("2)", event.element ?? event)
-//        })
-//
-//    // 2
-//    subject.onNext("3")
-//
-//    // 3
-//    subscriptionOne.dispose()
-//    subject.onNext("4")
-//
-//    // 4
-//    subject.onCompleted()
-//
-//    // 5
-//    subject.onNext("5")
-//
-//    // 6
-//    subscriptionTwo.dispose()
-//
-//    let disposeBag = DisposeBag()
-//
-//    // 7
-//    subject
-//        .subscribe {
-//            print("3)", $0.element ?? $0)
-//    }
-//    .disposed(by: disposeBag)
-//
-//    subject.onNext("?")
-//}
-//
-//
-////MARK: - Behavior
-//// 1
-//enum MyError: Error {
-//    case anError
-//}
-//
-//// 2
-//func print<T: CustomStringConvertible>(label: String, event: Event<T>) {
-//    print(label, event.element ?? event.error ?? event)
-//}
-//
-////3
-//example(of: "BehaviorSubject") {
-//
-//    // 4
-//    let subject = BehaviorSubject(value: "Initial value")
-//    let disposeBag = DisposeBag()
-//
-//    subject.onNext("X")
-//
-//    subject
-//        .subscribe{
-//            print(label: "1)", event: $0)
-//    }
-//    .disposed(by: disposeBag)
-//
-//    // 7
-//    subject.onError(MyError.anError)
-//
-//    // 8
-//    subject
-//        .subscribe {
-//            print(label: "2)", event: $0)
-//    }
-//    .disposed(by: disposeBag)
-//}
-//
-//
-////MARK: - Replay
-//example(of: "ReplaySubject") {
-//
-//    // 1
-//    let subject = ReplaySubject<String>.create(bufferSize: 2)
-//    let disposeBag = DisposeBag()
-//
-//    // 2
-//    subject.onNext("1")
-//    subject.onNext("2")
-//    subject.onNext("3")
-//
-//    // 3
-//    subject
-//        .subscribe {
-//            print(label: "1)", event: $0)
-//    }
-//    .disposed(by: disposeBag)
-//
-//    subject
-//        .subscribe {
-//            print(label: "2)", event: $0)
-//    }
-//    .disposed(by: disposeBag)
-//
-//    subject.onNext("4")
-//
-//    subject.onCompleted()
-//
-//    subject
-//        .subscribe {
-//            print(label: "3)", event: $0)
-//    }
-//    .disposed(by: disposeBag)
-//}
-//
-//
-////MARK: - Variable
-//example(of: "Variable") {
-//
-//    // 1
-//    let variable = Variable("Initial value")
-//    let disposeBag = DisposeBag()
-//
-//    // 2
-//    variable.value = "New initial value"
-//
-//    // 3
-//    variable.asObservable()
-//        .subscribe {
-//            print(label: "1)", event: $0)
-//    }
-//    .disposed(by: disposeBag)
-//
-//    /* Prints:
-//     1) New initial value
-//     */
-//
-//    // 4
-//    variable.value = "1"
-//
-//    // 5
-//    variable.asObservable()
-//        .subscribe {
-//            print(label: "2)", event: $0)
-//    }
-//    .disposed(by: disposeBag)
-//
-//    // 6
-//    variable.value = "2"
-//
-//    /* Prints:
-//     1) 1
-//     2) 1
-//     1) 2
-//     2) 2
-//     */
-//}
+//MARK: - Publish
+example(of: "PublishSubject") {
+    let subject = PublishSubject<String>()
+    subject.onNext("Is anyone listening?")
+
+    let subscriptionOne = subject
+        .subscribe(onNext: { (string) in
+            print(string)
+        })
+    subject.on(.next("1"))
+    subject.onNext("2")
+
+    // 1
+    let subscriptionTwo = subject
+        .subscribe({ (event) in
+            print("2)", event.element ?? event)
+        })
+
+    // 2
+    subject.onNext("3")
+
+    // 3
+    subscriptionOne.dispose()
+    subject.onNext("4")
+
+    // 4
+    subject.onCompleted()
+
+    // 5
+    subject.onNext("5")
+
+    // 6
+    subscriptionTwo.dispose()
+
+    let disposeBag = DisposeBag()
+
+    // 7
+    subject
+        .subscribe {
+            print("3)", $0.element ?? $0)
+    }
+    .disposed(by: disposeBag)
+
+    subject.onNext("?")
+}
+
+
+//MARK: - Behavior
+// 1
+enum MyError: Error {
+    case anError
+}
+
+// 2
+func print<T: CustomStringConvertible>(label: String, event: Event<T>) {
+    print(label, event.element ?? event.error ?? event)
+}
+
+//3
+example(of: "BehaviorSubject") {
+
+    // 4
+    let subject = BehaviorSubject(value: "Initial value")
+    let disposeBag = DisposeBag()
+
+    subject.onNext("X")
+
+    subject
+        .subscribe{
+            print(label: "1)", event: $0)
+    }
+    .disposed(by: disposeBag)
+
+    // 7
+    subject.onError(MyError.anError)
+
+    // 8
+    subject
+        .subscribe {
+            print(label: "2)", event: $0)
+    }
+    .disposed(by: disposeBag)
+}
+
+
+//MARK: - Replay
+example(of: "ReplaySubject") {
+
+    // 1
+    let subject = ReplaySubject<String>.create(bufferSize: 2)
+    let disposeBag = DisposeBag()
+
+    // 2
+    subject.onNext("1")
+    subject.onNext("2")
+    subject.onNext("3")
+
+    // 3
+    subject
+        .subscribe {
+            print(label: "1)", event: $0)
+    }
+    .disposed(by: disposeBag)
+
+    subject
+        .subscribe {
+            print(label: "2)", event: $0)
+    }
+    .disposed(by: disposeBag)
+
+    subject.onNext("4")
+
+    subject.onCompleted()
+
+    subject
+        .subscribe {
+            print(label: "3)", event: $0)
+    }
+    .disposed(by: disposeBag)
+}
+
+
+//MARK: - Variable
+example(of: "Variable") {
+
+    // 1
+    let variable = Variable("Initial value")
+    let disposeBag = DisposeBag()
+
+    // 2
+    variable.value = "New initial value"
+
+    // 3
+    variable.asObservable()
+        .subscribe {
+            print(label: "1)", event: $0)
+    }
+    .disposed(by: disposeBag)
+
+    /* Prints:
+     1) New initial value
+     */
+
+    // 4
+    variable.value = "1"
+
+    // 5
+    variable.asObservable()
+        .subscribe {
+            print(label: "2)", event: $0)
+    }
+    .disposed(by: disposeBag)
+
+    // 6
+    variable.value = "2"
+
+    /* Prints:
+     1) 1
+     2) 1
+     1) 2
+     2) 2
+     */
+}
 
 
 //MARK: - Challenge_1
