@@ -371,16 +371,16 @@ example(of: "Challenge (Ch.5의 Challenge를 수정하여 영숫자 문자 가�
     let input = PublishSubject<String>()
     
     input
-        .map(convert) //
-        .unwrap()
+        .map(convert)
+        .unwrap() // Optional 처리
 //        .flatMap {
 //            $0 == nil ? Observable.empty() : Observable.just($0!)
 //        } // 이 부분을, RxSwiftExe 라이브러리의 .unwrap()으로 대체할 수 있다.
         .skipWhile { $0 == 0 } // 앞자리 0 무시 (== 처음일때만 0 무시)
-        .take(10) // 10자리 가져와서
-        .toArray() // array(10)으로 만들고
-        .map(format) // key
-        .map(dial)
+        .take(10)     // 10자리 가져와서
+        .toArray()    // array(10)으로 만들고
+        .map(format)  // 3번과 7번째 인덱스에 "-" 입력
+        .map(dial)    // 전화번호가 연락처에 있는지 확인하고 상황에 따른 출력내용 표시
         .subscribe({
             print($0)
         })
