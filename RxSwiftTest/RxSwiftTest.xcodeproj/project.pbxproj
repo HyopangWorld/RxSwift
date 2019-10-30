@@ -55,6 +55,7 @@
 		249A3B05235F0A070060B6CC /* RxSwiftTestUITests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RxSwiftTestUITests.swift; sourceTree = "<group>"; };
 		249A3B07235F0A070060B6CC /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		249DDB14235FD7FB0050B7BD /* Ch2Observable.playground */ = {isa = PBXFileReference; lastKnownFileType = file.playground; path = Ch2Observable.playground; sourceTree = "<group>"; xcLanguageSpecificationIdentifier = xcode.lang.swift; };
+		24AFE69B23696A45003D6B64 /* Ch11TimeBasedOperator.playground */ = {isa = PBXFileReference; lastKnownFileType = file.playground; path = Ch11TimeBasedOperator.playground; sourceTree = "<group>"; xcLanguageSpecificationIdentifier = xcode.lang.swift; };
 		24E1923823617C6000F6BD6C /* Ch5FilteringOperator.playground */ = {isa = PBXFileReference; lastKnownFileType = file.playground; path = Ch5FilteringOperator.playground; sourceTree = "<group>"; xcLanguageSpecificationIdentifier = xcode.lang.swift; };
 		24E686F4236680CD005240BC /* Ch9CombiningOperator.playground */ = {isa = PBXFileReference; lastKnownFileType = file.playground; path = Ch9CombiningOperator.playground; sourceTree = "<group>"; xcLanguageSpecificationIdentifier = xcode.lang.swift; };
 		2CEAC95A0C52493FF86C9396 /* Pods-RxSwiftTest-RxSwiftTestUITests.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-RxSwiftTest-RxSwiftTestUITests.release.xcconfig"; path = "Target Support Files/Pods-RxSwiftTest-RxSwiftTestUITests/Pods-RxSwiftTest-RxSwiftTestUITests.release.xcconfig"; sourceTree = "<group>"; };
@@ -99,6 +100,7 @@
 		249A3AD7235F0A050060B6CC = {
 			isa = PBXGroup;
 			children = (
+				24AFE69B23696A45003D6B64 /* Ch11TimeBasedOperator.playground */,
 				24E686F4236680CD005240BC /* Ch9CombiningOperator.playground */,
 				241E0FA1236418590009BC93 /* Ch7TransformingOperator.playground */,
 				24E1923823617C6000F6BD6C /* Ch5FilteringOperator.playground */,

@@ -77,7 +77,7 @@ example(of: "concatMap") {
 example(of: "merge") {
     let left = PublishSubject<String>()
     let right = PublishSubject<String>()
-    
+
     let source = Observable.of(left.asObservable(), right.asObservable())
 
     let observable = source.merge() // left, right 합쳐서 하나로 병합 구독
@@ -98,7 +98,7 @@ example(of: "merge") {
             right.onNext("Right :" + rightValues.removeFirst())
         }
     } while !leftValues.isEmpty || !rightValues.isEmpty
-    
+
 
     disposable.dispose() // subject left&right 종료
 }
@@ -350,7 +350,7 @@ example(of: "scan") {
 
     let observable = source.scan(0, accumulator: +)
     observable.subscribe(onNext: { print($0) })
-    
+
     /* Prints:
      1
      4
@@ -368,7 +368,7 @@ example(of: "scan") {
 example(of: "Challenge1 - The zip case") {
     let source = Observable.of(1, 3, 5, 7, 9)
     let observable1 = source.scan(0, accumulator: +)
-    
+
     let observable2 = Observable.zip(source, observable1, resultSelector: { (curValue, talValue) in
         return "current : \(curValue), total : \(talValue)"
     })
@@ -384,3 +384,26 @@ example(of: "Challenge2 - The zip case") {
         .map { return "current : \($0), total : \($1)" }
         .subscribe(onNext: { print($0) })
 }
+
+
+
+func findMin() -> Int {
+    var machines = [0,3,0]
+    let total = machines.reduce(0,+)
+    
+    if total % machines.count != 0 {
+        return -1
+    }
+    
+    let avg = total / machines.count
+    
+    var sumNeed = 0
+    var result = 0
+    
+    for m in machines {
+        sumNeed += m - avg
+        result = max(result, abs(sumNeed), m - avg)
+    }
+    return result
+}
+print("\(findMin())")
