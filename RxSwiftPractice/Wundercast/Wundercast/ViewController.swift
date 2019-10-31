@@ -41,6 +41,7 @@ class ViewController: UIViewController {
         super.viewDidLoad()
         
         style()
+        activityIndicator.stopAnimating()
         
         // 검색 입력창에 입력이 끝나면 검색이 시작하도록 contolEvent 추가한다.
         let searchText = searchCityName.rx.controlEvent(.editingDidEndOnExit).asObservable()
@@ -66,20 +67,21 @@ class ViewController: UIViewController {
         // MARK: - 검색 결과 나올때까지 indicator 실행
         // 검색 입력과 검색 결과 모두를 합쳐서 running에
         let running = Observable.from([
-                searchText.map { _ in true },
-                search.map { _ in false }.asObservable()
+                searchText.map { _ in true }, // 시작했을때 값이 돌아오니 true
+                search.map { _ in false }.asObservable() // 검색이 끝날때 값이 들어오니 false
             ])
             .merge()
             //  앱이 시작할 때 모든 label을 수동적으로 숨길 필요가 없게 해주는
-            .startWith(true)
+            .startWith(true) // 시작하기 전에 먼저 true를 표출해 label을 숨겨준다.
             .asDriver(onErrorJustReturn: false)
         
+        // 맨처음 입력하기 전에는 indicator 안돌아가게
         running.skip(1).drive(activityIndicator.rx.isAnimating).disposed(by: bag)
         
-        running.drive(tempLabel.rx.isHidden).disposed(by: bag)
-        running.drive(humidityLabel.rx.isHidden).disposed(by: bag)
-        running.drive(cityNameLabel.rx.isHidden).disposed(by: bag)
-        running.drive(iconLabel.rx.isHidden).disposed(by: bag)
+        running.skip(1).drive(tempLabel.rx.isHidden).disposed(by: bag)
+        running.skip(1).drive(humidityLabel.rx.isHidden).disposed(by: bag)
+        running.skip(1).drive(cityNameLabel.rx.isHidden).disposed(by: bag)
+        running.skip(1).drive(iconLabel.rx.isHidden).disposed(by: bag)
         
         
         // MARK: - 검색 결과 혹은 온도 스위치 바뀌었을때 라벨 변경
