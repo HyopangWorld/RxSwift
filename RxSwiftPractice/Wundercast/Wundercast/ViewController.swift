@@ -21,6 +21,8 @@
  */
 
 import UIKit
+import CoreLocation
+
 import RxSwift
 import RxCocoa
 
@@ -33,9 +35,10 @@ class ViewController: UIViewController {
     @IBOutlet weak var cityNameLabel: UILabel!
     @IBOutlet weak var tempSwitch: UISwitch!
     @IBOutlet weak var activityIndicator: UIActivityIndicatorView!
+    @IBOutlet weak var geoLocationButton: UIButton!
+    @IBOutlet weak var mapButton: UIButton!
     
     let bag = DisposeBag()
-    
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -100,6 +103,11 @@ class ViewController: UIViewController {
         search.map { "\($0.humidity)%" }.drive(humidityLabel.rx.text).disposed(by: bag)
         search.map { "\($0.cityName)" }.drive(cityNameLabel.rx.text).disposed(by: bag)
         search.map { "\($0.icon)" }.drive(iconLabel.rx.text).disposed(by: bag)
+        
+        
+        // MARK: - 위치 받아오기
+        let locationManager = CLLocationManager()
+        
     }
     
     override func viewDidAppear(_ animated: Bool) {

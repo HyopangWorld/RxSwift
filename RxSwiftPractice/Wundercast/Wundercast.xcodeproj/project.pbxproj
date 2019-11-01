@@ -7,6 +7,8 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		245C4ED7236BB38B00BB9423 /* CLLocationManager+Rx.swift in Sources */ = {isa = PBXBuildFile; fileRef = 245C4ED5236BB38B00BB9423 /* CLLocationManager+Rx.swift */; };
+		245C4ED8236BB38B00BB9423 /* MKMapView+Rx.swift in Sources */ = {isa = PBXBuildFile; fileRef = 245C4ED6236BB38B00BB9423 /* MKMapView+Rx.swift */; };
 		CA64900EFE1D9F43973A260F /* Pods_Wundercast.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 4098AFCCA291187AB4A1327B /* Pods_Wundercast.framework */; };
 		CB4D69411DE9A7D100DC0488 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = CB4D69401DE9A7D100DC0488 /* AppDelegate.swift */; };
 		CB4D69431DE9A7D100DC0488 /* ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = CB4D69421DE9A7D100DC0488 /* ViewController.swift */; };
@@ -22,6 +24,8 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
+		245C4ED5236BB38B00BB9423 /* CLLocationManager+Rx.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "CLLocationManager+Rx.swift"; sourceTree = "<group>"; };
+		245C4ED6236BB38B00BB9423 /* MKMapView+Rx.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "MKMapView+Rx.swift"; sourceTree = "<group>"; };
 		4098AFCCA291187AB4A1327B /* Pods_Wundercast.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_Wundercast.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		8CF08882048DB0620980ACC9 /* Pods-Wundercast.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Wundercast.debug.xcconfig"; path = "Pods/Target Support Files/Pods-Wundercast/Pods-Wundercast.debug.xcconfig"; sourceTree = "<group>"; };
 		A8FEC475BD4840CDBFA8E9B0 /* Pods-Wundercast.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Wundercast.release.xcconfig"; path = "Pods/Target Support Files/Pods-Wundercast/Pods-Wundercast.release.xcconfig"; sourceTree = "<group>"; };
@@ -60,6 +64,15 @@
 			name = Frameworks;
 			sourceTree = "<group>";
 		};
+		245C4ED4236BB38B00BB9423 /* Extensions */ = {
+			isa = PBXGroup;
+			children = (
+				245C4ED5236BB38B00BB9423 /* CLLocationManager+Rx.swift */,
+				245C4ED6236BB38B00BB9423 /* MKMapView+Rx.swift */,
+			);
+			path = Extensions;
+			sourceTree = "<group>";
+		};
 		3636A4F7921E0DED6D7F62D8 /* Pods */ = {
 			isa = PBXGroup;
 			children = (
@@ -93,6 +106,7 @@
 			children = (
 				CB4D69671DE9AD5100DC0488 /* Assets */,
 				CB4D69631DE9AD2A00DC0488 /* Controllers */,
+				245C4ED4236BB38B00BB9423 /* Extensions */,
 				CB4D69641DE9AD2A00DC0488 /* Utils */,
 				CB4D69401DE9A7D100DC0488 /* AppDelegate.swift */,
 				CB4D69421DE9A7D100DC0488 /* ViewController.swift */,
@@ -173,6 +187,7 @@
 			developmentRegion = English;
 			hasScannedForEncodings = 0;
 			knownRegions = (
+				English,
 				en,
 				Base,
 			);
@@ -255,6 +270,8 @@
 				CB4D69431DE9A7D100DC0488 /* ViewController.swift in Sources */,
 				CB4D69711DE9C70100DC0488 /* Colors.swift in Sources */,
 				CB4D69411DE9A7D100DC0488 /* AppDelegate.swift in Sources */,
+				245C4ED8236BB38B00BB9423 /* MKMapView+Rx.swift in Sources */,
+				245C4ED7236BB38B00BB9423 /* CLLocationManager+Rx.swift in Sources */,
 				CB4D69661DE9AD3300DC0488 /* ApiController.swift in Sources */,
 				CB4D69701DE9C70100DC0488 /* Appearance.swift in Sources */,
 			);

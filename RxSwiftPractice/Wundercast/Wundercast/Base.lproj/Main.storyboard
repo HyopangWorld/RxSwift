@@ -24,6 +24,9 @@
                         <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
+                            <mapView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" mapType="standard" translatesAutoresizingMaskIntoConstraints="NO" id="MnJ-2v-Ynu">
+                                <rect key="frame" x="0.0" y="95" width="375" height="572"/>
+                            </mapView>
                             <textField opaque="NO" clipsSubviews="YES" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" placeholder="City's Name" textAlignment="center" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="CvG-51-WJq">
                                 <rect key="frame" x="16" y="16" width="343" height="39"/>
                                 <color key="tintColor" cocoaTouchSystemColor="tableCellGroupedBackgroundColor"/>
@@ -71,34 +74,52 @@
                                 <color key="tintColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                 <color key="color" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                             </activityIndicatorView>
+                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="fJ6-4v-X2b">
+                                <rect key="frame" x="27.5" y="615.5" width="24" height="32"/>
+                                <state key="normal" image="place-location"/>
+                            </button>
+                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="0Xh-N6-gVR">
+                                <rect key="frame" x="318.5" y="616" width="32" height="31"/>
+                                <state key="normal" image="map"/>
+                            </button>
                         </subviews>
                         <color key="backgroundColor" red="1" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                         <constraints>
                             <constraint firstItem="jQQ-9b-2rA" firstAttribute="centerX" secondItem="8bC-Xf-vdC" secondAttribute="centerX" id="1Bs-Gm-bwQ"/>
                             <constraint firstItem="jQQ-9b-2rA" firstAttribute="leading" secondItem="8bC-Xf-vdC" secondAttribute="leading" constant="32" id="3EQ-YY-BbS"/>
                             <constraint firstItem="fn5-hY-7os" firstAttribute="width" secondItem="jQQ-9b-2rA" secondAttribute="width" id="6Ay-YA-dE9"/>
+                            <constraint firstItem="0Xh-N6-gVR" firstAttribute="centerX" secondItem="aYm-dp-fOW" secondAttribute="centerX" id="9as-AW-WTM"/>
                             <constraint firstItem="fn5-hY-7os" firstAttribute="centerX" secondItem="jQQ-9b-2rA" secondAttribute="centerX" id="DQs-GR-s4h"/>
+                            <constraint firstItem="fJ6-4v-X2b" firstAttribute="centerX" secondItem="x4a-i8-beX" secondAttribute="centerX" id="Ekn-bR-GJV"/>
                             <constraint firstAttribute="trailing" secondItem="jQQ-9b-2rA" secondAttribute="trailing" constant="32" id="I7g-p4-Sbb"/>
                             <constraint firstItem="x4a-i8-beX" firstAttribute="leading" secondItem="jQQ-9b-2rA" secondAttribute="leading" id="Ice-tx-Qny"/>
                             <constraint firstItem="5Le-IL-aCb" firstAttribute="centerX" secondItem="8bC-Xf-vdC" secondAttribute="centerX" id="IvQ-pK-ggO"/>
                             <constraint firstItem="CvG-51-WJq" firstAttribute="leading" secondItem="8bC-Xf-vdC" secondAttribute="leadingMargin" id="LfL-fC-hE2"/>
                             <constraint firstItem="CvG-51-WJq" firstAttribute="top" secondItem="y3c-jy-aDJ" secondAttribute="bottom" constant="16" id="LuH-bS-Wr5"/>
                             <constraint firstItem="jQQ-9b-2rA" firstAttribute="top" secondItem="aYm-dp-fOW" secondAttribute="bottom" constant="8" id="MFT-Kh-TpX"/>
+                            <constraint firstItem="5Le-IL-aCb" firstAttribute="centerY" secondItem="fJ6-4v-X2b" secondAttribute="centerY" id="OfA-j9-Xzc"/>
                             <constraint firstItem="fn5-hY-7os" firstAttribute="top" secondItem="jQQ-9b-2rA" secondAttribute="bottom" constant="8" id="Rba-DY-MEe"/>
                             <constraint firstItem="jQQ-9b-2rA" firstAttribute="top" secondItem="x4a-i8-beX" secondAttribute="bottom" constant="8" id="VFJ-kt-pMI"/>
+                            <constraint firstItem="MnJ-2v-Ynu" firstAttribute="leading" secondItem="8bC-Xf-vdC" secondAttribute="leading" id="X3Z-VW-WUz"/>
+                            <constraint firstItem="MnJ-2v-Ynu" firstAttribute="top" secondItem="CvG-51-WJq" secondAttribute="bottom" constant="40" id="Z6J-qe-vIw"/>
                             <constraint firstItem="Z00-cF-Wy1" firstAttribute="centerY" secondItem="8bC-Xf-vdC" secondAttribute="centerY" id="Z9o-xl-3fs"/>
+                            <constraint firstAttribute="bottom" secondItem="MnJ-2v-Ynu" secondAttribute="bottom" id="itj-vc-dzS"/>
+                            <constraint firstItem="0Xh-N6-gVR" firstAttribute="centerY" secondItem="5Le-IL-aCb" secondAttribute="centerY" id="k7k-Om-Qyl"/>
                             <constraint firstAttribute="trailingMargin" secondItem="CvG-51-WJq" secondAttribute="trailing" id="rE1-nx-616"/>
                             <constraint firstItem="jQQ-9b-2rA" firstAttribute="centerY" secondItem="8bC-Xf-vdC" secondAttribute="centerY" constant="20" id="ruZ-Hl-zEh"/>
                             <constraint firstItem="Z00-cF-Wy1" firstAttribute="centerX" secondItem="8bC-Xf-vdC" secondAttribute="centerX" id="sIN-Wj-f63"/>
                             <constraint firstItem="aYm-dp-fOW" firstAttribute="trailing" secondItem="jQQ-9b-2rA" secondAttribute="trailing" id="tOM-kL-ZZw"/>
                             <constraint firstItem="wfy-db-euE" firstAttribute="top" secondItem="5Le-IL-aCb" secondAttribute="bottom" constant="20" id="ump-64-3GC"/>
+                            <constraint firstAttribute="trailing" secondItem="MnJ-2v-Ynu" secondAttribute="trailing" id="yAr-KM-TNl"/>
                         </constraints>
                     </view>
                     <connections>
                         <outlet property="activityIndicator" destination="Z00-cF-Wy1" id="Ryb-81-meV"/>
                         <outlet property="cityNameLabel" destination="fn5-hY-7os" id="FJD-r9-Dgm"/>
+                        <outlet property="geoLocationButton" destination="fJ6-4v-X2b" id="s4P-zb-6k8"/>
                         <outlet property="humidityLabel" destination="aYm-dp-fOW" id="ACB-jg-cWC"/>
                         <outlet property="iconLabel" destination="jQQ-9b-2rA" id="CFl-ge-t02"/>
+                        <outlet property="mapButton" destination="0Xh-N6-gVR" id="VXL-4S-vsN"/>
                         <outlet property="searchCityName" destination="CvG-51-WJq" id="yXf-Qu-AkM"/>
                         <outlet property="tempLabel" destination="x4a-i8-beX" id="4To-Ng-1e9"/>
                         <outlet property="tempSwitch" destination="5Le-IL-aCb" id="8xa-Vj-lah"/>
@@ -109,4 +130,8 @@
             <point key="canvasLocation" x="21.600000000000001" y="36.431784107946029"/>
         </scene>
     </scenes>
+    <resources>
+        <image name="map" width="32" height="31"/>
+        <image name="place-location" width="24" height="32"/>
+    </resources>
 </document>
