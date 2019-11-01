@@ -39,6 +39,7 @@ class ViewController: UIViewController {
     @IBOutlet weak var mapButton: UIButton!
     
     let bag = DisposeBag()
+    let locationManager = CLLocationManager()
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -46,13 +47,35 @@ class ViewController: UIViewController {
         style()
         activityIndicator.stopAnimating()
         
+        // MARK: - 버튼 누르면 현재 위치 받아오기
+        
+        let currentLocation = locationManager.rx.didUpDateLocations
+            .map { $0[0] } // didUpdateLocations는 array로 현재위치를 방출, 그중 한개 데이터만 가져오기
+            .filter { $0.horizontalAccuracy < kCLLocationAccuracyHundredMeters } // 정확도를 위해 현재 위치와 100미터 이내로 설정
+        
+        // 버튼을 누르면 그냥 권한 물어보고 위치가져오도록
+        let geoInput = geoLocationButton.rx.tap.asObservable()
+            .do(onNext: { _ in
+                self.locationManager.requestWhenInUseAuthorization()
+                self.locationManager.startUpdatingLocation()
+            })
+        
+        let geoLocation = geoInput.flatMap {
+            return currentLocation.take(1)
+        }
+        
+        let geoSearch = geoLocation.flatMap { location in
+            return ApiController.shared.currentWeather(lat: location.coordinate.latitude, lon: location.coordinate.longitude)
+                .catchErrorJustReturn(ApiController.Weather.dummy)
+        }
+        
+        
+        // MARK: - 검색 입력창
         // 검색 입력창에 입력이 끝나면 검색이 시작하도록 contolEvent 추가한다.
         let searchText = searchCityName.rx.controlEvent(.editingDidEndOnExit).asObservable()
         let temperature = tempSwitch.rx.controlEvent(.valueChanged).asObservable()
         
-        // 도시 검색창에 옵져버 걸기
-        // => 이렇게 하면 빈칸이 넘어올 수 없음
-        let search = Observable.from([searchText, temperature])
+        let searchInput = Observable.from([searchText,temperature])
             .merge()
             .map { self.searchCityName.text }
             //  텍스트로 ApiController 호출해서 검색 API에서 받은 에러 때문에(observable 에러가 아닌) observable이 dispose 되는 것을 막기 위해 catchError
@@ -60,19 +83,22 @@ class ViewController: UIViewController {
                 // 유저가 search를 탭했을 때만 요청을 하므로 catchErrorJustReturn을 거를 수 있다.
                 return ApiController.shared.currentWeather(city: text ?? "Error")
                     .catchErrorJustReturn(ApiController.Weather.empty)
-            }
-            // Traits framework의 Driver로 전환
-            // : 에러를 방출하지 않는 특별한 observable이다. 모든 과정은 UI 변경이 background 쓰레드에서 이뤄지는 것을 방지하기 위해 메인 쓰레드에서 이뤄진다.
-            //.  observable이 에러를 방출할 때 어떻게 할 것인지 기본값을 정의하고 있다. 그러므로 driver는 스스로 방출된 에러를 떼어내는게 가능하다.
-            .asDriver(onErrorJustReturn: ApiController.Weather.empty)
-
+        }
+        
+        // 도시 검색창에 옵져버 걸기
+        // => 이렇게 하면 빈칸이 넘어올 수 없음
+        let search = Observable.from([searchInput, geoSearch])
+            .merge()
+            .asDriver(onErrorJustReturn: ApiController.Weather.dummy)
+        
         
         // MARK: - 검색 결과 나올때까지 indicator 실행
         // 검색 입력과 검색 결과 모두를 합쳐서 running에
         let running = Observable.from([
-                searchText.map { _ in true }, // 시작했을때 값이 돌아오니 true
-                search.map { _ in false }.asObservable() // 검색이 끝날때 값이 들어오니 false
-            ])
+            searchText.map { _ in true }, // 시작했을때 값이 돌아오니 true
+            geoInput.map { _ in true }, // 3
+            search.map { _ in false }.asObservable(), // 검색이 끝날때 값이 들어오니 false
+        ])
             .merge()
             //  앱이 시작할 때 모든 label을 수동적으로 숨길 필요가 없게 해주는
             .startWith(true) // 시작하기 전에 먼저 true를 표출해 label을 숨겨준다.
@@ -96,17 +122,14 @@ class ViewController: UIViewController {
             .map {
                 if self.tempSwitch.isOn { return "\(Int(Double($0.temperature) * 1.8 + 32))°F" }
                 else { return "\($0.temperature)°C" }
-            }
-            .drive(tempLabel.rx.text)
-            .disposed(by: bag)
-
+        }
+        .drive(tempLabel.rx.text)
+        .disposed(by: bag)
+        
         search.map { "\($0.humidity)%" }.drive(humidityLabel.rx.text).disposed(by: bag)
         search.map { "\($0.cityName)" }.drive(cityNameLabel.rx.text).disposed(by: bag)
         search.map { "\($0.icon)" }.drive(iconLabel.rx.text).disposed(by: bag)
         
-        
-        // MARK: - 위치 받아오기
-        let locationManager = CLLocationManager()
         
     }
     
