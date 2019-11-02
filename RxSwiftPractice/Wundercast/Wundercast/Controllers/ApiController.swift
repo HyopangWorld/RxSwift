@@ -32,9 +32,7 @@ class ApiController {
   /// The shared instance
   static var shared = ApiController()
 
-  /// The api key to communicate with openweathermap.org
-  /// Create you own on https://home.openweathermap.org/users/sign_up
-  private let apiKey = "[YOUR KEY]"
+  private let apiKey = "fc7adb08640ccd40500ce1dbd3f85dc8"
 
   /// API base URL
   let baseURL = URL(string: "http://api.openweathermap.org/data/2.5")!
