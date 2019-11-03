@@ -47,7 +47,7 @@ class ViewController: UIViewController {
         style()
         activityIndicator.stopAnimating()
         
-        // MARK: - 버튼 누르면 현재 위치 받아오기
+        // MARK: - 현재 위치 날씨 옵져빙
         
         let currentLocation = locationManager.rx.didUpDateLocations
             .map { $0[0] } // didUpdateLocations는 array로 현재위치를 방출, 그중 한개 데이터만 가져오기
@@ -60,34 +60,39 @@ class ViewController: UIViewController {
                 self.locationManager.startUpdatingLocation()
             })
         
-        let geoLocation = geoInput.flatMap {
+        let geoLocation = geoInput.flatMap { _ -> Observable<CLLocation> in
             return currentLocation.take(1)
         }
         
-        let geoSearch = geoLocation.flatMap { location in
+        let geoSearch = geoLocation.flatMap { location -> Observable<ApiController.Weather> in
             return ApiController.shared.currentWeather(lat: location.coordinate.latitude, lon: location.coordinate.longitude)
                 .catchErrorJustReturn(ApiController.Weather.dummy)
         }
         
         
-        // MARK: - 검색 입력창
+        // MARK: - 검색창 입력 시 날씨 옵져빙
         // 검색 입력창에 입력이 끝나면 검색이 시작하도록 contolEvent 추가한다.
-        let searchText = searchCityName.rx.controlEvent(.editingDidEndOnExit).asObservable()
-        let temperature = tempSwitch.rx.controlEvent(.valueChanged).asObservable()
+        let searchInput = searchCityName.rx.controlEvent(.editingDidEndOnExit).asObservable()
         
-        let searchInput = Observable.from([searchText,temperature])
-            .merge()
-            .map { self.searchCityName.text }
-            //  텍스트로 ApiController 호출해서 검색 API에서 받은 에러 때문에(observable 에러가 아닌) observable이 dispose 되는 것을 막기 위해 catchError
+        let textSearch = searchInput.map { self.searchCityName.text }
             .flatMapLatest { text in
                 // 유저가 search를 탭했을 때만 요청을 하므로 catchErrorJustReturn을 거를 수 있다.
                 return ApiController.shared.currentWeather(city: text ?? "Error")
                     .catchErrorJustReturn(ApiController.Weather.empty)
         }
         
-        // 도시 검색창에 옵져버 걸기
-        // => 이렇게 하면 빈칸이 넘어올 수 없음
-        let search = Observable.from([searchInput, geoSearch])
+        
+        // MARK: - 온도계 변경 옵져빙
+//        let temperature = tempSwitch.rx.controlEvent(.valueChanged).asObservable()
+//        let tempSwitch = Observable.just( temperature.map { self.tempLabel.text } )
+//            .flatMapLatest {
+//                if self.tempSwitch.isOn { return "\(Int(Double($0.temperature) * 1.8 + 32))°F" }
+//                else { return "\($0.temperature)°C" }
+//            .asDriver(onErrorJustReturn: "Error")
+            
+        
+        // MARK: - 검색 옵져빙
+        let search = Observable.from([textSearch, geoSearch])
             .merge()
             .asDriver(onErrorJustReturn: ApiController.Weather.dummy)
         
@@ -95,7 +100,7 @@ class ViewController: UIViewController {
         // MARK: - 검색 결과 나올때까지 indicator 실행
         // 검색 입력과 검색 결과 모두를 합쳐서 running에
         let running = Observable.from([
-            searchText.map { _ in true }, // 시작했을때 값이 돌아오니 true
+            searchInput.map { _ in true }, // 시작했을때 값이 돌아오니 true
             geoInput.map { _ in true }, // 3
             search.map { _ in false }.asObservable(), // 검색이 끝날때 값이 들어오니 false
         ])
@@ -159,10 +164,10 @@ class ViewController: UIViewController {
         searchCityName.textColor = UIColor.ufoGreen
         searchCityName.attributedPlaceholder = NSAttributedString(string: "City's Name",
                                                                   attributes: [NSAttributedString.Key.foregroundColor: UIColor.cream])
-        tempLabel.textColor = UIColor.cream
-        humidityLabel.textColor = UIColor.cream
-        iconLabel.textColor = UIColor.cream
-        cityNameLabel.textColor = UIColor.cream
+        tempLabel.textColor = UIColor.lightGray
+        humidityLabel.textColor = UIColor.lightGray
+        iconLabel.textColor = UIColor.lightGray
+        cityNameLabel.textColor = UIColor.lightGray
     }
 }
 
