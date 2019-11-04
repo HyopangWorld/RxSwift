@@ -26,10 +26,6 @@ import CoreLocation
 import RxSwift
 import RxCocoa
 
-
-/// NSObject를 상속한 모든 클래스가 rx를 받게 할 수 있다.
-extension NSObject: ReactiveCompatible { }
-
 extension CLLocationManager: HasDelegate {
     public typealias Delegate = CLLocationManagerDelegate
 }

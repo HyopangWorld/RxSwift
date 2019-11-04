@@ -22,6 +22,7 @@
 
 import UIKit
 import CoreLocation
+import MapKit
 
 import RxSwift
 import RxCocoa
@@ -37,6 +38,7 @@ class ViewController: UIViewController {
     @IBOutlet weak var activityIndicator: UIActivityIndicatorView!
     @IBOutlet weak var geoLocationButton: UIButton!
     @IBOutlet weak var mapButton: UIButton!
+    @IBOutlet weak var mapView: MKMapView!
     
     let bag = DisposeBag()
     let locationManager = CLLocationManager()
@@ -45,15 +47,36 @@ class ViewController: UIViewController {
         super.viewDidLoad()
         
         style()
-        activityIndicator.stopAnimating()
+        
+        
+        // MARK: - 검색창 입력 시 날씨 옵져빙
+        let searchInput = searchCityName.rx.controlEvent(.editingDidEndOnExit).asObservable()
+            .map { self.searchCityName.text }
+            .filter { ($0 ?? "").count > 0 }
+        
+        let textSearch = searchInput.flatMapLatest { text in
+                // 유저가 search를 탭했을 때만 요청을 하므로 catchErrorJustReturn을 거를 수 있다.
+                return ApiController.shared.currentWeather(city: text ?? "Error")
+                    .catchErrorJustReturn(ApiController.Weather.empty)
+        }
+        
+        
+        // MARK: -
+        let mapInput = mapView.rx.regionDidChangeAnimated
+          .skip(1)
+          .map { _ in self.mapView.centerCoordinate }
+
+        let mapSearch = mapInput.flatMap { coordinate in
+          return ApiController.shared.currentWeather(lat: coordinate.latitude, lon: coordinate.longitude)
+            .catchErrorJustReturn(ApiController.Weather.dummy)
+        }
+        
         
         // MARK: - 현재 위치 날씨 옵져빙
-        
         let currentLocation = locationManager.rx.didUpDateLocations
             .map { $0[0] } // didUpdateLocations는 array로 현재위치를 방출, 그중 한개 데이터만 가져오기
             .filter { $0.horizontalAccuracy < kCLLocationAccuracyHundredMeters } // 정확도를 위해 현재 위치와 100미터 이내로 설정
         
-        // 버튼을 누르면 그냥 권한 물어보고 위치가져오도록
         let geoInput = geoLocationButton.rx.tap.asObservable()
             .do(onNext: { _ in
                 self.locationManager.requestWhenInUseAuthorization()
@@ -70,18 +93,6 @@ class ViewController: UIViewController {
         }
         
         
-        // MARK: - 검색창 입력 시 날씨 옵져빙
-        // 검색 입력창에 입력이 끝나면 검색이 시작하도록 contolEvent 추가한다.
-        let searchInput = searchCityName.rx.controlEvent(.editingDidEndOnExit).asObservable()
-        
-        let textSearch = searchInput.map { self.searchCityName.text }
-            .flatMapLatest { text in
-                // 유저가 search를 탭했을 때만 요청을 하므로 catchErrorJustReturn을 거를 수 있다.
-                return ApiController.shared.currentWeather(city: text ?? "Error")
-                    .catchErrorJustReturn(ApiController.Weather.empty)
-        }
-        
-        
         // MARK: - 온도계 변경 옵져빙
 //        let temperature = tempSwitch.rx.controlEvent(.valueChanged).asObservable()
 //        let tempSwitch = Observable.just( temperature.map { self.tempLabel.text } )
@@ -92,18 +103,17 @@ class ViewController: UIViewController {
             
         
         // MARK: - 검색 옵져빙
-        let search = Observable.from([textSearch, geoSearch])
+        let search = Observable.from([textSearch, geoSearch, mapSearch])
             .merge()
             .asDriver(onErrorJustReturn: ApiController.Weather.dummy)
         
         
         // MARK: - 검색 결과 나올때까지 indicator 실행
         // 검색 입력과 검색 결과 모두를 합쳐서 running에
-        let running = Observable.from([
-            searchInput.map { _ in true }, // 시작했을때 값이 돌아오니 true
-            geoInput.map { _ in true }, // 3
-            search.map { _ in false }.asObservable(), // 검색이 끝날때 값이 들어오니 false
-        ])
+        let running = Observable.from([searchInput.map { _ in true },
+                                       geoInput.map { _ in true },
+                                       mapInput.map { _ in true},
+                                       search.map { _ in false }.asObservable()])
             .merge()
             //  앱이 시작할 때 모든 label을 수동적으로 숨길 필요가 없게 해주는
             .startWith(true) // 시작하기 전에 먼저 true를 표출해 label을 숨겨준다.
@@ -123,8 +133,7 @@ class ViewController: UIViewController {
         //   producer가 만들어 내는 값에 따라 recevier를 data binding 해주는 것이다.
         //   여기서 search Observer가 producer이고, humidityLabel이 recevier이다
         // - driver 에서 bind(to:) 처럼 행동하는 drive()
-        search
-            .map {
+        search.map {
                 if self.tempSwitch.isOn { return "\(Int(Double($0.temperature) * 1.8 + 32))°F" }
                 else { return "\($0.temperature)°C" }
         }
@@ -135,7 +144,25 @@ class ViewController: UIViewController {
         search.map { "\($0.cityName)" }.drive(cityNameLabel.rx.text).disposed(by: bag)
         search.map { "\($0.icon)" }.drive(iconLabel.rx.text).disposed(by: bag)
         
+        locationManager.rx.didUpDateLocations
+            .subscribe(onNext: { locations in
+                print("\(locations)")
+            })
+            .disposed(by: bag)
         
+        // MARK : MAP View Overay 옵져빙
+        mapButton.rx.tap
+            .subscribe({ _ in
+                self.mapView.isHidden = !self.mapView.isHidden
+            })
+            .disposed(by: bag)
+        
+        mapView.rx.setDelegate(self)
+            .disposed(by: bag)
+        
+        search.map { [$0.overlay()] }
+            .drive(mapView.rx.overlays)
+            .disposed(by: bag)
     }
     
     override func viewDidAppear(_ animated: Bool) {
@@ -171,3 +198,12 @@ class ViewController: UIViewController {
     }
 }
 
+extension ViewController: MKMapViewDelegate {
+    func mapView(_ mapView: MKMapView, rendererFor overlay: MKOverlay) -> MKOverlayRenderer {
+        if let overlay = overlay as? ApiController.Weather.Overlay {
+            let overlayView = ApiController.Weather.OverlayView(overlay: overlay, overlayIcon: overlay.icon)
+            return overlayView
+        }
+        return MKOverlayRenderer()
+    }
+}

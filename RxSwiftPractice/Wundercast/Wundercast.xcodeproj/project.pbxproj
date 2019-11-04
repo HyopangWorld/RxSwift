@@ -67,8 +67,8 @@
 		245C4ED4236BB38B00BB9423 /* Extensions */ = {
 			isa = PBXGroup;
 			children = (
-				245C4ED5236BB38B00BB9423 /* CLLocationManager+Rx.swift */,
 				245C4ED6236BB38B00BB9423 /* MKMapView+Rx.swift */,
+				245C4ED5236BB38B00BB9423 /* CLLocationManager+Rx.swift */,
 			);
 			path = Extensions;
 			sourceTree = "<group>";
