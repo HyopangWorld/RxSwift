@@ -61,14 +61,14 @@ class ViewController: UIViewController {
         }
         
         
-        // MARK: -
+        // MARK: - 스크롤 뷰 이벤트 감지 해서 map search
         let mapInput = mapView.rx.regionDidChangeAnimated
-          .skip(1)
-          .map { _ in self.mapView.centerCoordinate }
-
-        let mapSearch = mapInput.flatMap { coordinate in
-          return ApiController.shared.currentWeather(lat: coordinate.latitude, lon: coordinate.longitude)
-            .catchErrorJustReturn(ApiController.Weather.dummy)
+           .skip(1)
+            .map { _ in self.mapView.centerCoordinate }
+        
+         let mapSearch = mapInput.flatMap { coordinate in
+           return ApiController.shared.currentWeather(lat: coordinate.latitude, lon: coordinate.longitude)
+               .catchErrorJustReturn(ApiController.Weather.dummy)
         }
         
         
@@ -113,6 +113,7 @@ class ViewController: UIViewController {
         let running = Observable.from([searchInput.map { _ in true },
                                        geoInput.map { _ in true },
                                        mapInput.map { _ in true},
+                                       mapSearch.map { _ in false },
                                        search.map { _ in false }.asObservable()])
             .merge()
             //  앱이 시작할 때 모든 label을 수동적으로 숨길 필요가 없게 해주는
